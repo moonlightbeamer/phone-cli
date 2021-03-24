@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// insertCmd represents the insert command
 var insertCmd = &cobra.Command{
 	Use:   "insert",
 	Short: "Insert new entries",
@@ -24,15 +23,6 @@ var insertCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(insertCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// insertCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	//
 	insertCmd.Flags().StringP("name", "n", "", "Name value")
 	insertCmd.Flags().StringP("surname", "s", "", "Surname value")
 	insertCmd.Flags().StringP("tel", "t", "", "Telephone value")
