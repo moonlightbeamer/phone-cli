@@ -10,6 +10,7 @@ import (
 	"net/http"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var listCmd = &cobra.Command{
@@ -17,13 +18,23 @@ var listCmd = &cobra.Command{
 	Short: "List all entries.",
 	Long:  `List the contents of Phone book.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		SERVER := viper.GetString("server")
+		PORT := viper.GetString("port")
+		// fmt.Println(SERVER, PORT)
+
 		// Create request
-		URL := SERVER + PORT + "/list"
+		URL := "http://" + SERVER + ":" + PORT + "/list"
 
 		// Send request to server
 		data, err := http.Get(URL)
 		if err != nil {
 			fmt.Println(err)
+			return
+		}
+
+		// Check HTTP Status Code
+		if data.StatusCode != http.StatusOK {
+			fmt.Println("Status code:", data.StatusCode)
 			return
 		}
 
@@ -34,10 +45,7 @@ var listCmd = &cobra.Command{
 			return
 		}
 
-		// Check HTTP Status Code
-
 		fmt.Print(string(responseData))
-
 	},
 }
 

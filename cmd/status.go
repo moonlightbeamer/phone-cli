@@ -6,8 +6,11 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var statusCmd = &cobra.Command{
@@ -16,7 +19,33 @@ var statusCmd = &cobra.Command{
 	Long: `This command prints information about the
 	status of the phone book server.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("status called")
+		SERVER := viper.GetString("server")
+		PORT := viper.GetString("port")
+
+		// Create request
+		URL := "http://" + SERVER + ":" + PORT + "/status"
+
+		// Send request to server
+		data, err := http.Get(URL)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		// Check HTTP Status Code
+		if data.StatusCode != http.StatusOK {
+			fmt.Println("Status code:", data.StatusCode)
+			return
+		}
+
+		// Read data
+		responseData, err := ioutil.ReadAll(data.Body)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		fmt.Print(string(responseData))
 	},
 }
 

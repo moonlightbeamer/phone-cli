@@ -6,8 +6,11 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var insertCmd = &cobra.Command{
@@ -16,7 +19,53 @@ var insertCmd = &cobra.Command{
 	Long: `This command inserts new data to the 
 	Phone book application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("insert called")
+		SERVER := viper.GetString("server")
+		PORT := viper.GetString("port")
+
+		number, _ := cmd.Flags().GetString("tel")
+		if number == "" {
+			fmt.Println("Number is empty!")
+			return
+		}
+
+		name, _ := cmd.Flags().GetString("name")
+		if number == "" {
+			fmt.Println("Name is empty!")
+			return
+		}
+
+		surname, _ := cmd.Flags().GetString("surname")
+		if number == "" {
+			fmt.Println("Surname is empty!")
+			return
+		}
+
+		// Create request in two steps for readability
+		URL := "http://" + SERVER + ":" + PORT + "/insert/"
+		URL = URL + "/" + name + "/" + surname + "/" + number
+
+		// Send request to server
+		data, err := http.Get(URL)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		// Check HTTP Status Code
+		if data.StatusCode != http.StatusOK {
+			fmt.Println("Status code:", data.StatusCode)
+			return
+		}
+
+		// Read data
+		responseData, err := ioutil.ReadAll(data.Body)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		fmt.Print(string(responseData))
+
 	},
 }
 
