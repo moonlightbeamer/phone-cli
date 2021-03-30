@@ -6,6 +6,8 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
 
 	"github.com/spf13/cobra"
 )
@@ -15,7 +17,27 @@ var listCmd = &cobra.Command{
 	Short: "List all entries.",
 	Long:  `List the contents of Phone book.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+		// Create request
+		URL := SERVER + PORT + "/list"
+
+		// Send request to server
+		data, err := http.Get(URL)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		// Read data
+		responseData, err := ioutil.ReadAll(data.Body)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		// Check HTTP Status Code
+
+		fmt.Print(string(responseData))
+
 	},
 }
 
