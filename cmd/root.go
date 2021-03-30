@@ -21,14 +21,9 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-	rootCmd.PersistentFlags().StringP("server", "s", "localhost", "Server")
-	rootCmd.PersistentFlags().StringP("port", "d", "1234", "Port number")
+	rootCmd.PersistentFlags().StringP("server", "S", "localhost", "Server")
+	rootCmd.PersistentFlags().StringP("port", "P", "1234", "Port number")
 
 	viper.BindPFlag("server", rootCmd.PersistentFlags().Lookup("server"))
 	viper.BindPFlag("port", rootCmd.PersistentFlags().Lookup("port"))
-}
-
-func initConfig() {
-
 }

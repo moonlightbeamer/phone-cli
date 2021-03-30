@@ -47,7 +47,7 @@ var insertCmd = &cobra.Command{
 		// Send request to server
 		data, err := http.Get(URL)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("**", err)
 			return
 		}
 
@@ -60,7 +60,7 @@ var insertCmd = &cobra.Command{
 		// Read data
 		responseData, err := ioutil.ReadAll(data.Body)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("*", err)
 			return
 		}
 
