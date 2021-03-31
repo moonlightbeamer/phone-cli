@@ -6,7 +6,7 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/spf13/cobra"
@@ -58,14 +58,13 @@ var insertCmd = &cobra.Command{
 		}
 
 		// Read data
-		responseData, err := ioutil.ReadAll(data.Body)
+		responseData, err := io.ReadAll(data.Body)
 		if err != nil {
 			fmt.Println("*", err)
 			return
 		}
 
 		fmt.Print(string(responseData))
-
 	},
 }
 

@@ -6,7 +6,7 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/spf13/cobra"
@@ -44,7 +44,7 @@ var searchCmd = &cobra.Command{
 		}
 
 		// Read data
-		responseData, err := ioutil.ReadAll(data.Body)
+		responseData, err := io.ReadAll(data.Body)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -56,6 +56,5 @@ var searchCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(searchCmd)
-
 	searchCmd.Flags().StringP("tel", "t", "", "Telephone number to search")
 }
