@@ -41,7 +41,7 @@ var insertCmd = &cobra.Command{
 		}
 
 		// Create request in two steps for readability
-		URL := "http://" + SERVER + ":" + PORT + "/insert/"
+		URL := "http://" + SERVER + ":" + PORT + "/insert"
 		URL = URL + "/" + name + "/" + surname + "/" + number
 
 		// Send request to server
